@@ -19,7 +19,6 @@ ausearch -k "$AUDIT_KEY" | grep denied >> "$REPORT"
 # Send alert if report is not empty
 if [ -s "$REPORT" ]; then
     log "Unauthorized access detected"
-    send_alert "🚨 Unauthorized file/folder access detected on $(hostname)
 
 $(tail -n 10 "$REPORT")"
 fi

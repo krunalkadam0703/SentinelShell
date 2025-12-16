@@ -11,5 +11,4 @@ ZOMBIES=$(ps aux | awk '$8=="Z" {print $2}')
 if [ -n "$ZOMBIES" ]; then
     log "Zombie processes: $ZOMBIES"
     kill -9 $ZOMBIES
-    send_alert "Zombie processes killed: $ZOMBIES"
-fi
+

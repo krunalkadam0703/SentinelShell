@@ -16,6 +16,6 @@ for svc in $SERVICES; do
     if ! systemctl is-active --quiet $svc; then
         log "$svc is down. Restarting..."
         sudo systemctl restart $svc
-        send_alert "$svc was down and restarted"
+
     fi
 done

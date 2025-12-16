@@ -6,9 +6,10 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$PROJECT_ROOT/config/toolkit.conf"
 source "$PROJECT_ROOT/utils/common.sh"
 
-CPU=$(top -bn1 | awk '/Cpu/ {print 100-$8}' | cut -d. -f1)
+[ "$AUDIT_ENABLED" != true ] && exit 0
 
-if (( CPU > CPU_THRESHOLD )); then
-    log "High CPU: $CPU%"
-    send_alert "High CPU usage detected: $CPU%"
-fi
+for path in $WATCH_PATHS; do
+    auditctl -w "$path" -p rwa -k "$AUDIT_KEY"
+done
+
+echo "Audit rules configured"

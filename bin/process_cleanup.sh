@@ -6,9 +6,10 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$PROJECT_ROOT/config/toolkit.conf"
 source "$PROJECT_ROOT/utils/common.sh"
 
-CPU=$(top -bn1 | awk '/Cpu/ {print 100-$8}' | cut -d. -f1)
+ZOMBIES=$(ps aux | awk '$8=="Z" {print $2}')
 
-if (( CPU > CPU_THRESHOLD )); then
-    log "High CPU: $CPU%"
-    send_alert "High CPU usage detected: $CPU%"
+if [ -n "$ZOMBIES" ]; then
+    log "Zombie processes: $ZOMBIES"
+    kill -9 $ZOMBIES
+    send_alert "Zombie processes killed: $ZOMBIES"
 fi

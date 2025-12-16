@@ -1,5 +1,6 @@
 #!/bin/bash
 
-log(){
-    echo "$(date '+%F %T'):$1" |tree -a "$LOG_FILE"
+log() {
+    local msg="$1"
+    echo "$(date '+%F %T') | $msg" >> "$LOG_FILE"
 }
